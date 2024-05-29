@@ -121,14 +121,6 @@ vector<string> tokenize(const string& infix) {
         }
     }
     return tokens;
-	
-    vector<string> tokens = tokenize(formattedInfix);
-    vector<string> postfix = infixToPostfix(tokens);
-    cout << "Postfix : " << endl;
-    for (const auto& token : postfix) {
-        cout << token << " ";
-    }
-    cout << endl << endl;
 }
 
 int main() {
@@ -141,6 +133,15 @@ int main() {
 	string formatedInfix = strToInfix(infix);
 	cout << "Infix : " << endl;
 	cout << formatedInfix;
+
+	vector<string> tokens = tokenize(formattedInfix);
+	    vector<string> postfix = infixToPostfix(tokens);
+	    cout << "Postfix : " << endl;
+	    for (const auto& token : postfix) {
+	        cout << token << " ";
+	    }
+	    cout << endl << endl;
+	}
 	
 	return 0;
 }
