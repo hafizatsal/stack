@@ -48,3 +48,51 @@ vector<string> infixToPostfix(vector<string>& tokens){
     return output;
 }
 
+vector<string> tokenize(const string& infix){
+    vector<string> tokens;
+    size_t i = 0;
+    while (i< infix.size()){
+        if (isspace(infix[i])){
+            i++;
+            continue;
+        }
+        
+        if (isdigit(infix[i])){
+            string num;
+            while (i < infix.size() && isdigit(infix[i])){
+                num += infix[i++];
+            }
+            tokens.push_back(num);
+        }else if (isOperator(infix[i])){
+            if (infix[i] == '-' && (i == 0 || isOperator(infix[i-1]) || infix[i-1] == '(')){
+                tokens.push_back("-1");
+                tokens.push_back("*");
+                i++;
+            }else{
+                tokens.push_back(string(1, infix[i++]));
+            }
+        }else if (infix[i] == '(' || infix[i] == ')'){
+            tokens.push_back(string(1, infix[i++]));
+        }else{
+            i++;
+        }
+    }
+    return tokens;
+}
+
+int main() {
+    string infix;
+    getline(cin, infix);
+    
+    vector<string> tokens = tokenize(infix);
+    vector<string> postfix = infixToPostfix(tokens);
+    
+    for (size_t i=0; i<postfix.size(); ++i){
+        if(i>0) cout << " ";
+        cout << postfix[i];
+    }
+    cout << endl;
+    
+    return 0;
+}
+
