@@ -1,5 +1,8 @@
 #include <iostream>
 #include <string>
+#include <stack>
+#include <vector>
+#include <cctype>
 using namespace std;
 
 string strToInfix (string& infix) {
@@ -59,6 +62,38 @@ int getPriority(char op) {
         default:
             return 0;
     }
+}
+
+vector<string> tokenize(const string& infix) {
+    vector<string> tokens;
+    size_t i = 0;
+    while (i < infix.size()) {
+        if (isspace(infix[i])) {
+            i++;
+            continue;
+        }
+
+        if (isdigit(infix[i])) {
+            string num;
+            while (i < infix.size() && isdigit(infix[i])) {
+                num += infix[i++];
+            }
+            tokens.push_back(num);
+        } else if (isOperator(infix[i])) {
+            if (infix[i] == '-' && (i == 0 || isOperator(infix[i - 1]) || infix[i - 1] == '(')) {
+                tokens.push_back("-1");
+                tokens.push_back("*");
+                i++;
+            } else {
+                tokens.push_back(string(1, infix[i++]));
+            }
+        } else if (infix[i] == '(' || infix[i] == ')') {
+            tokens.push_back(string(1, infix[i++]));
+        } else {
+            i++;
+        }
+    }
+    return tokens;
 }
 
 vector<string> infixToPostfix(vector<string>& tokens) {
